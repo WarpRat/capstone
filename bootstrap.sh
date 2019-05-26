@@ -51,7 +51,7 @@ echo 'shopt -s globstar' >> .bashrc
 if [[ -x $HOME/bin/terraform ]]
 then
   TF_CUR_VER=$(terraform version | grep -o -P "(?<=Terraform v)[0-9]\.[0-9]{1,2}\.[0-9]{1,2}")
-  [[ $TF_CUR_VER == $TF_VER ]] || install_tf
+  [[ $TF_CUR_VER == $TF_VER ]] && echo "Terraform detected and up-to-date - skipping install" || install_tf
 else
   install_tf
 fi
@@ -60,7 +60,7 @@ fi
 if [[ -x $HOME/bin/helm ]]
 then
   HELM_CUR_VER=$(helm version | head -n 1 | grep -o -P "(?<=SemVer:\"v)[0-9]\.[0-9]{2}\.[0-9]{1,2}")
-  [[ $HELM_CUR_VER == $HELM_VER ]] || install_helm
+  [[ $HELM_CUR_VER == $HELM_VER ]] && echo "Helm detected and up-to-date - skipping install" || install_helm
 else
   install_helm
 fi
