@@ -31,6 +31,7 @@ tar xzvf /tmp/$(echo $HELM_ZIP | awk -F'/' '{ print $5 }') -C $HOME/bin linux-am
 # Pull bootstrap terraform code to cloud shell
 [[ -d capstone ]] && (cd capstone && git pull) || git clone $GIT_URL
 
+
 echo 'You have successfully installed the basic software needed for this demo.'
 read -p 'Would you like to proceed to the next step? ' -n 1 -r
 echo
