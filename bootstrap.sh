@@ -16,12 +16,6 @@ install_tf() {
   unzip -o /tmp/$(echo $TF_ZIP | awk -F'/' '{ print $6 }') -d $HOME/bin
 }
 
-version_check() {
-  if [[ $1 < $2 ]]
-  then
-    $3
-}
-
 install_helm() {
   echo "Downloading and installing helm"
   wget $HELM_ZIP -P /tmp/
