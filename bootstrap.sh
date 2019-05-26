@@ -4,9 +4,29 @@
 set -euo pipefail
 
 # Variables
-TF_ZIP='https://releases.hashicorp.com/terraform/0.11.14/terraform_0.11.14_linux_amd64.zip'
-HELM_ZIP='https://storage.googleapis.com/kubernetes-helm/helm-v2.14.0-linux-amd64.tar.gz'
-GIT_URL='https://github.com/WarpRat/capstone'
+TF_VER="0.11.14"
+HELM_VER="2.14.0"
+TF_ZIP="https://releases.hashicorp.com/terraform/${TF_VER}/terraform_${TF_VER}_linux_amd64.zip"
+HELM_ZIP="https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VER}-linux-amd64.tar.gz"
+GIT_URL="https://github.com/WarpRat/capstone"
+
+install_tf() {
+  echo "Downloading and installing terraform."
+  wget $TF_ZIP -P /tmp/
+  unzip -o /tmp/$(echo $TF_ZIP | awk -F'/' '{ print $6 }') -d $HOME/bin
+}
+
+version_check() {
+  if [[ $1 < $2 ]]
+  then
+    $3
+}
+
+install_helm() {
+  echo "Downloading and installing helm"
+  wget $HELM_ZIP -P /tmp/
+  tar xzvf /tmp/$(echo $HELM_ZIP | awk -F'/' '{ print $5 }') -C $HOME/bin linux-amd64/helm --strip-components 1
+}
 
 # Clear the terminal and start running commands
 clear
@@ -27,15 +47,23 @@ echo 'shopt -s globstar' >> .bashrc
 # Source updated bashrc
 . .bashrc
 
-# Download and install the terraform binary
-echo "Downloading and installing terraform."
-wget $TF_ZIP -P /tmp/
-unzip -o /tmp/$(echo $TF_ZIP | awk -F'/' '{ print $6 }') -d $HOME/bin
+# Download and install the terraform binary if it doesn't already exist or isn't up to date
+if [[ -x $HOME/bin/terraform ]]
+then
+  TF_CUR_VER=$(terraform version | grep -o -P "(?<=Terraform v)[0-9]\.[0-9]{1,2}\.[0-9]{1,2}")
+  [[ $TF_CUR_VER == $TF_VER ]] || install_tf
+else
+  install_tf
+fi
 
 # Download and install the helm binary
-echo "Downloading and installing helm"
-wget $HELM_ZIP -P /tmp/
-tar xzvf /tmp/$(echo $HELM_ZIP | awk -F'/' '{ print $5 }') -C $HOME/bin linux-amd64/helm --strip-components 1
+if [[ -x $HOME/bin/helm ]]
+then
+  HELM_CUR_VER=$(helm version | head -n 1 | grep -o -P "(?<=SemVer:\"v)[0-9]\.[0-9]{2}\.[0-9]{1,2}")
+  [[ $HELM_CUR_VER == $HELM_VER ]] || install_helm
+else
+  install_helm
+fi
 
 # Pull bootstrap terraform code to cloud shell
 [[ -d capstone ]] && (cd capstone && git pull) || git clone $GIT_URL

@@ -1,10 +1,16 @@
 #!/bin/bash
 set -euo pipefail
 
-# Make sure we're in the right directory
-cd $HOME/capstone/terraform/
+#TODO: Consider adding an option to supress apply output if private key output is needed to access from remote state
+tf_apply() {
+    cd $1
+    terraform plan -out=planned_apply
+    read -p "Apply this plan?"
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+      terraform apply planned_apply
+    else
+      echo -e "\nThere is no need to rerun the full bootstrap script. You can resume from this point by running the following script $HOME/capstone/bin/tf_apply.sh when you're ready."
+    fi
+}
 
-# Make sure our plan is still there
-[[ -f planned_apply ]] || terraform plan -out=planned_apply
-
-terraform apply planned_apply

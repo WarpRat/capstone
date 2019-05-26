@@ -43,17 +43,14 @@ else
   fi
 fi
 
-echo -e "\nPreparing to initialize terraform"
+echo
+
 sleep 2
 clear
-
-# TODO: This will likely require multiple terraform applies in a specific order. Should probably pull all of this into tf_apply.sh
-cd terraform
-terraform init
-terraform plan -out=planned_apply
-
-echo
-echo "The terraform plan above will be executed in the next step. Proceeding past this point will cost (at least a little) real money."
+echo "You're ready to start applying terraform code to provision cloud resources."
+echo "The rest of the steps are automated via a shell script, but can also be applied manually using Terraform and Helm."
+echo "If you'd prefer to proceed with a manual installation check the README in the terraform directory for instructions."
+echo "Proceeding past this point will cost (at least a little) real money."
 read -p "Are you sure you want to proceed? (y/n) " -n 1 -read
 
 if [[ $REPLY =~ ^[Yy]$ ]]
