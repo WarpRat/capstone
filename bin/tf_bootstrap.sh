@@ -3,7 +3,7 @@
 validate_project() { echo "$PROJECT_LIST" | grep -F -q -x "$1"; }
 
 sed_tfvars() {
-    sed -i "s/__PROJECT_NAME__/$1/" ../terraform/terraform.tfvars
+    sed -i "s/__PROJECT_NAME__/$1/" capstone/terraform/terraform.tfvars
 }
 
 clear
