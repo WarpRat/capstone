@@ -16,23 +16,24 @@ then
 fi
 
 echo "It looks like the current GCP project is set to $GOOGLE_CLOUD_PROJECT"
-read -p 'Would you like to launch the resources into this GCP project? (y/n)' -n 1 -r
+read -p "Would you like to launch the resources into this GCP project? (y/n) " -n 1 -r
 echo
 
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
   sed_tfvars $GOOGLE_CLOUD_PROJECT
 else
-  read -p "Would you like to specify a project ID here (alternatively you can switch projects in cloud shell and rerun this script)? (y/n) " -n 1 -r
+  echo
+  read -p 'Would you like to specify a project ID here (alternatively you can switch projects in cloud shell and rerun this script)? (y/n) ' -n 1 -r
   if [[ $REPLY =~ ^[Yy]$ ]]
   then
-    echo -e "\nGathering available projects . . ."
+    echo -e "\nGathering available projects . . .\n"
     PROJECT_LIST=$(gcloud projects list | awk '{ print $1 }' | tail -n +2)
-    echo "The following projects are available to your cloud shell"
+    echo "The following projects are available to your cloud shell:"
     for i in $PROJECT_LIST; do
       echo $i
     done
-    read -p "What is the ID of the GCP project you'd like to use?" -r project_id
+    read -p "What is the ID of the GCP project you'd like to use? " -r project_id
     validate_project "$project_id" \
     && sed_tfvars "$project_id" \
     || (echo "That project isn't in available in this GCP account.";\
