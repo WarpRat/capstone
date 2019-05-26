@@ -5,6 +5,9 @@ resource "google_container_cluster" "this" {
   remove_default_node_pool = true
   initial_node_count       = 1
 
+  monitoring_service = "${var.monitoring}"
+  logging_service    = "${var.logging}"
+
   # Intentionally setting these as empty to disable basic auth.
   master_auth {
     username = ""
@@ -19,11 +22,10 @@ resource "google_container_cluster" "this" {
 }
 
 resource "google_container_node_pool" "this" {
-  name               = "${var.name}-node-pool"
-  location           = "${var.location}"
-  cluster            = "${google_container_cluster.this.name}"
-  node_count         = 1
-  monitoring_service = "${var.monitoring}"
+  name       = "${var.name}-node-pool"
+  location   = "${var.location}"
+  cluster    = "${google_container_cluster.this.name}"
+  node_count = 1
 
   autoscaling {
     min_node_count = "${var.min_node_count}"

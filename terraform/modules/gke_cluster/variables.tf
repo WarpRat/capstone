@@ -12,11 +12,16 @@ variable "dashboard_enabled" {
 }
 
 variable "monitoring" {
-  description = "(Optional) What type of monitoring to use. Options are 'monitoring.googleapis.com', 'monitoring.googleapis.com/kubernetes', or 'none'"
+  description = "(Optional) What type of monitoring to use. Options are 'monitoring.googleapis.com', 'monitoring.googleapis.com/kubernetes', or 'none' - Should match logging."
   default     = "monitoring.googleapis.com/kubernetes"
 }
 
-variables "min_node_count" {
+variable "logging" {
+  description = "(Optional) What type of logging to use. Options are 'logging.googleapis.com', 'logging.googleapis.com/kubernetes', or 'none' - Should match monitoring."
+  default     = "logging.googleapis.com/kubernetes"
+}
+
+variable "min_node_count" {
   description = "(Optional) The minimum number of nodes in the autoscaling node group."
   default     = 1
 }
@@ -62,7 +67,7 @@ variable "auto_repair" {
   default     = true
 }
 
-variable "auto_update" {
-  description = "(Optional) Enable auto-update on nodes."
+variable "auto_upgrade" {
+  description = "(Optional) Enable auto-upgrade on nodes."
   default     = true
 }
