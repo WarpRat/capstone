@@ -21,12 +21,12 @@ echo 'PATH=$HOME/bin:$PATH' >> .bashrc
 # Download and install the terraform binary
 echo "Downloading and installing terraform."
 wget $TF_ZIP -P /tmp/
-unzip /tmp/$TF_ZIP -d $HOME/bin
+unzip /tmp/$(echo $TF_ZIP | awk -F'/' '{ print $6 }') -d $HOME/bin
 
 # Download and install the helm binary
 echo "Downloading and installing helm"
 wget $HELM_ZIP -P /tmp/
-tar xzvf /tmp/$HELM_ZIP -C $HOME/bin linux-amd64/helm --strip-components 1
+tar xzvf /tmp/$(echo $HELM_ZIP | awk -F'/' '{ print $5 }') -C $HOME/bin linux-amd64/helm --strip-components 1
 
 # Pull bootstrap terraform code to cloud shell
 git clone $GIT_URL
