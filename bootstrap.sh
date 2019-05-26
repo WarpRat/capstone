@@ -21,7 +21,7 @@ echo 'PATH=$HOME/bin:$PATH' >> .bashrc
 # Download and install the terraform binary
 echo "Downloading and installing terraform."
 wget $TF_ZIP -P /tmp/
-unzip /tmp/$(echo $TF_ZIP | awk -F'/' '{ print $6 }') -d $HOME/bin
+unzip -o /tmp/$(echo $TF_ZIP | awk -F'/' '{ print $6 }') -d $HOME/bin
 
 # Download and install the helm binary
 echo "Downloading and installing helm"
@@ -32,7 +32,7 @@ tar xzvf /tmp/$(echo $HELM_ZIP | awk -F'/' '{ print $5 }') -C $HOME/bin linux-am
 git clone $GIT_URL
 
 echo 'You have successfully installed the basic software needed for this demo.'
-read -p 'Would you like to proceed to the next step?' -n 1 -r
+read -p 'Would you like to proceed to the next step? ' -n 1 -r
 echo
 
 if [[ $REPLY =~ ^[Yy]$ ]]
