@@ -68,6 +68,9 @@ fi
 # Pull bootstrap terraform code to cloud shell
 [[ -d capstone ]] && (cd capstone && git pull) || git clone $GIT_URL
 
+#keep git clean by using the dev branch on my GCP project
+[[ $RRENV == "test" ]] && (cd capstone && git fetch && git checkout dev && git reset --hard origin/dev)
+
 
 echo 'You have successfully installed the basic software needed for this demo.'
 read -p 'Would you like to proceed to the next step? ' -n 1 -r
