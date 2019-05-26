@@ -6,6 +6,7 @@ resource "google_container_cluster" "this" {
   initial_node_count       = 1
 
   monitoring_service = "${var.monitoring}"
+  logging_service    = "${var.logging}"
 
   # Intentionally setting these as empty to disable basic auth.
   master_auth {
