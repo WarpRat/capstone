@@ -16,7 +16,7 @@ variable "monitoring" {
   default     = "monitoring.googleapis.com/kubernetes"
 }
 
-variables "min_node_count" {
+variable "min_node_count" {
   description = "(Optional) The minimum number of nodes in the autoscaling node group."
   default     = 1
 }
@@ -62,7 +62,7 @@ variable "auto_repair" {
   default     = true
 }
 
-variable "auto_update" {
-  description = "(Optional) Enable auto-update on nodes."
+variable "auto_upgrade" {
+  description = "(Optional) Enable auto-upgrade on nodes."
   default     = true
 }
