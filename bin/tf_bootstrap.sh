@@ -1,9 +1,10 @@
 #!/bin/bash
+set -euo pipefail
 
 validate_project() { echo "$PROJECT_LIST" | grep -F -q -x "$1"; }
 
 sed_tfvars() {
-    sed -i "s/__PROJECT_NAME__/$1/" capstone/terraform/terraform.tfvars
+    sed -i "s/__PROJECT_NAME__/$1/" capstone/terraform/**/terraform.tfvars
 }
 
 clear
@@ -40,4 +41,25 @@ else
          echo "Start a new project through the GCP console, or figure out what project you want to use and try again.";\
          echo "You can return to this script by running $(pwd)/capstone/bin/tf_bootstrap.sh"; exit 1)
   fi
+fi
+
+echo -e "\nPreparing to initialize terraform"
+sleep 2
+clear
+
+# TODO: This will likely require multiple terraform applies in a specific order. Should probably pull all of this into tf_apply.sh
+cd terraform
+terraform init
+terraform plan -out=planned_apply
+
+echo
+echo "The terraform plan above will be executed in the next step. Proceeding past this point will cost (at least a little) real money."
+read -p "Are you sure you want to proceed? (y/n) " -n 1 -read
+
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+  $HOME/capstone/bin/tf_apply.sh
+else
+  echo -e "\nThere is no need to rerun the full bootstrap script. You can resume from this point by running the following script $HOME/capstone/bin/tf_apply.sh when you're ready."
+  exit 0
 fi

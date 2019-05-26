@@ -11,11 +11,20 @@ GIT_URL='https://github.com/WarpRat/capstone'
 # Clear the terminal and start running commands
 clear
 
+# Make sure all the necessary APIs are enabled for this project
+gcloud services enable container.googleapis.com \
+       servicenetworking.googleapis.com \
+       cloudresourcemanager.googleapis.com \
+       redis.googleapis.com
+
 # Set path to include home directory that will persist cloud shell sessions
 cd
 [[ -d bin ]] || mkdir bin
 echo "Adding $HOME/bin to the path."
 echo 'PATH=$HOME/bin:$PATH' >> .bashrc
+# Enable globstar
+echo 'shopt -s globstar' >> .bashrc
+# Source updated bashrc
 . .bashrc
 
 # Download and install the terraform binary
