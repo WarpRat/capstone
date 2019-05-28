@@ -44,7 +44,7 @@ else
 fi
 
 #TODO - look at handling this with env vars and/or GCP KMS secrets.
-if [[ -d $HOME/.capstone_secure ]]
+if [[ ! -d $HOME/.capstone_secure ]]
 then
   echo "Creating a directory to store passwords. You shouldn't need to access this directly and will be given an option to clean it up at the end of this project."
   mkdir $HOME/.capstone_secure
