@@ -3,6 +3,7 @@ data "google_compute_network" "default" {
 }
 
 resource "google_compute_global_address" "cloudsql_ips" {
+  provider      = "google-beta"
   name          = "cloudsql_ips"
   purpose       = "VPC_PEERING"
   address_type  = "INTERNAL"
@@ -11,6 +12,7 @@ resource "google_compute_global_address" "cloudsql_ips" {
 }
 
 resource "google_service_networking connection" "cloudsql_service" {
+  provider                = "google-beta"
   network                 = "${data.google_compute_network.default.self_link}"
   service                 = "servicenetworking.googleapis.com"
   reserved_peering_ranges = ["${google_compute_global_address.cloudsql_ips.name}"]

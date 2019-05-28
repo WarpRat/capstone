@@ -1,6 +1,5 @@
 resource "google_sql_database_instance" "gitlabsql" {
-  provider = "google-beta"
-
+  provider         = "google-beta"
   name             = "gitlab-cloudsql"
   region           = "${var.region}"
   database_version = "POSTGRES_9_6"
