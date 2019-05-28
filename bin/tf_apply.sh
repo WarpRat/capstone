@@ -5,7 +5,7 @@ set -euo pipefail
 tf_apply() {
     cd $1
     [[ -d .terraform ]] || terraform init
-    terraform plan -out=planned_apply
+    terraform plan -out=planned_apply $2
     read -p "Apply this plan?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
@@ -17,5 +17,5 @@ tf_apply() {
 
 tf_apply $HOME/capstone/terraform/service-accounts
 tf_apply $HOME/capstone/terraform/storage
-tf_apply $HOME/capstone/terraform/database
-tf_apply $HOME/capstone/terraform/
+tf_apply $HOME/capstone/terraform/database "-var 'gitlab_db_pass=$(cat $HOME/.capstone_secure/db.pw)'"
+tf_apply $HOME/capstone/terraform/cluster
