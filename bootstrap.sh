@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # A basic bootstrap script for setting up a google cloud shell environment
-set -euo pipefail
+set -eo pipefail
 
 # Variables
 TF_VER="0.11.14"
@@ -25,6 +25,7 @@ install_helm() {
 # Clear the terminal and start running commands
 clear
 
+echo "Enabling all necessary GCP APIs for this project. This can take a few minutes"
 # Make sure all the necessary APIs are enabled for this project
 gcloud services enable container.googleapis.com \
        servicenetworking.googleapis.com \
@@ -53,7 +54,7 @@ fi
 # Download and install the helm binary
 if [[ -x $HOME/bin/helm ]]
 then
-  HELM_CUR_VER=$(helm version | head -n 1 | grep -o -P "(?<=SemVer:\"v)[0-9]\.[0-9]{2}\.[0-9]{1,2}")
+  HELM_CUR_VER=$(set +o pipefail && helm version | head -n 1 | grep -o -P "(?<=SemVer:\"v)[0-9]\.[0-9]{2}\.[0-9]{1,2}")
   [[ $HELM_CUR_VER == $HELM_VER ]] && echo "Helm detected and up-to-date - skipping install" || install_helm
 else
   install_helm

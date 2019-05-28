@@ -43,7 +43,20 @@ else
   fi
 fi
 
-echo
+#TODO - look at handling this with env vars and/or GCP KMS secrets.
+if [[ -d $HOME/.capstone_secure ]]
+then
+  echo "Creating a directory to store passwords. You shouldn't need to access this directly and will be given an option to clean it up at the end of this project."
+  mkdir $HOME/.capstone_secure
+  chmod 700 $HOME/.capstone_secure
+  if [[ ! -f $HOME/.capstone_secure/db.pw ]]
+  then
+    echo "Generating database password"
+    openssl rand -base64 24 > $HOME/.capstone_secure/db.pw
+  else
+    echo "Database password already exists. Skipping"
+  fi
+fi
 
 sleep 2
 clear

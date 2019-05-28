@@ -4,6 +4,7 @@ set -euo pipefail
 #TODO: Consider adding an option to supress apply output if private key output is needed to access from remote state
 tf_apply() {
     cd $1
+    [[ -d .terraform ]] || terraform init
     terraform plan -out=planned_apply
     read -p "Apply this plan?"
     if [[ $REPLY =~ ^[Yy]$ ]]
@@ -14,3 +15,7 @@ tf_apply() {
     fi
 }
 
+tf_apply $HOME/capstone/terraform/service-accounts
+tf_apply $HOME/capstone/terraform/storage
+tf_apply $HOME/capstone/terraform/database
+tf_apply $HOME/capstone/terraform/
