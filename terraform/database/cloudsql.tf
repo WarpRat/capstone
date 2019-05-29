@@ -6,7 +6,7 @@ resource "google_sql_database_instance" "gitlabsql" {
 
   #This is defined in network.tf in this folder
   depends_on = [
-    "google_service_networking connection.cloudsql_service",
+    "google_service_networking_connection.cloudsql_service",
   ]
 
   #Private network is defined in network.tf in this folder
