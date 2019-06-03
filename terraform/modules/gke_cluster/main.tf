@@ -19,6 +19,10 @@ resource "google_container_cluster" "this" {
       disabled = "${var.dashboard_enabled ? "false" : "true" }"
     }
   }
+
+  ip_allocation_policy {
+    use_ip_aliases = true
+  }
 }
 
 resource "google_container_node_pool" "this" {

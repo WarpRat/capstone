@@ -1,9 +1,10 @@
 #!/bin/bash
+set -euo pipefail
 
 validate_project() { echo "$PROJECT_LIST" | grep -F -q -x "$1"; }
 
 sed_tfvars() {
-    sed -i "s/__PROJECT_NAME__/$1/" capstone/terraform/terraform.tfvars
+    sed -i "s/__PROJECT_NAME__/$1/" capstone/terraform/**/terraform.tfvars
 }
 
 clear
@@ -40,4 +41,40 @@ else
          echo "Start a new project through the GCP console, or figure out what project you want to use and try again.";\
          echo "You can return to this script by running $(pwd)/capstone/bin/tf_bootstrap.sh"; exit 1)
   fi
+fi
+
+#TODO - look at handling this with env vars and/or GCP KMS secrets.
+if [[ ! -d $HOME/.capstone_secure ]]
+then
+  echo "Creating a directory to store passwords. You shouldn't need to access this directly and will be given an option to clean it up at the end of this project."
+  mkdir $HOME/.capstone_secure
+  chmod 700 $HOME/.capstone_secure
+else
+  echo "Secrets directory exists. Skipping creation."
+fi
+
+if [[ ! -f $HOME/.capstone_secure/db.pw ]]
+then
+  echo "Generating database password"
+  openssl rand -base64 24 > $HOME/.capstone_secure/db.pw
+else
+  echo "Database password already exists. Skipping creation."
+fi
+
+
+sleep 2
+clear
+
+echo "You're ready to start applying terraform code to provision cloud resources."
+echo "The rest of the steps are automated via a shell script, but can also be applied manually using Terraform and Helm."
+echo "If you'd prefer to proceed with a manual installation check the README in the terraform directory for instructions."
+echo "Proceeding past this point will cost (at least a little) real money."
+read -p "Are you sure you want to proceed? (y/n) " -n 1 -r
+
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+  $HOME/capstone/bin/tf_apply.sh
+else
+  echo -e "\nThere is no need to rerun the full bootstrap script. You can resume from this point by running the following script $HOME/capstone/bin/tf_apply.sh when you're ready."
+  exit 0
 fi
