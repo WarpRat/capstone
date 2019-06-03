@@ -7,7 +7,7 @@ resource "random_id" "db_name" {
 
 resource "google_sql_database_instance" "gitlabsql" {
   provider         = "google-beta"
-  name             = "gitlab-cloudsql-${random_id.db_name}"
+  name             = "gitlab-cloudsql-${random_id.db_name.dec}"
   region           = "${var.region}"
   database_version = "POSTGRES_9_6"
 
@@ -25,6 +25,24 @@ resource "google_sql_database_instance" "gitlabsql" {
       private_network = "${data.google_compute_network.default.self_link}"
     }
   }
+}
+
+# DEBUGGING
+#
+output "hex" {
+  value = "${random_id.db_name.hex}"
+}
+
+output "dec" {
+  value = "${random_id.db_name.dec}"
+}
+
+output "base" {
+  value = "${random_id.db_name.b64_std}"
+}
+
+output "baseurl" {
+  value = "${random_id.db_name.b64_url}"
 }
 
 # Write the db name for use later
