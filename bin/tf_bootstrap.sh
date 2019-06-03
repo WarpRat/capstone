@@ -49,14 +49,18 @@ then
   echo "Creating a directory to store passwords. You shouldn't need to access this directly and will be given an option to clean it up at the end of this project."
   mkdir $HOME/.capstone_secure
   chmod 700 $HOME/.capstone_secure
-  if [[ ! -f $HOME/.capstone_secure/db.pw ]]
-  then
-    echo "Generating database password"
-    openssl rand -base64 24 > $HOME/.capstone_secure/db.pw
-  else
-    echo "Database password already exists. Skipping"
-  fi
+else
+  echo "Secrets directory exists. Skipping creation."
 fi
+
+if [[ ! -f $HOME/.capstone_secure/db.pw ]]
+then
+  echo "Generating database password"
+  openssl rand -base64 24 > $HOME/.capstone_secure/db.pw
+else
+  echo "Database password already exists. Skipping creation."
+fi
+
 
 sleep 2
 clear
