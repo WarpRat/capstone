@@ -60,6 +60,7 @@ fi
 
 sleep 2
 clear
+
 echo "You're ready to start applying terraform code to provision cloud resources."
 echo "The rest of the steps are automated via a shell script, but can also be applied manually using Terraform and Helm."
 echo "If you'd prefer to proceed with a manual installation check the README in the terraform directory for instructions."
