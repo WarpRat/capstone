@@ -12,7 +12,7 @@ module "gitlab_sa" {
 
 resource "null_resource" "write_key" {
   provisioner "local-exec" {
-    command = "cd $HOME/.capstone_secure && glcoud ima service-accounts keys screate --iam-account ${module.gitlab_sa.email} gcs-key.json"
+    command = "cd $HOME/.capstone_secure && gcloud ima service-accounts keys screate --iam-account ${module.gitlab_sa.email} gcs-key.json"
   }
 
   triggers {
