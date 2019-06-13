@@ -1,5 +1,0 @@
----
-nameOverride: gitlab-rails-storage
-namespace: gitlab
-seclit:
-  provider: Google
