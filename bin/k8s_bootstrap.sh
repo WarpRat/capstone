@@ -5,11 +5,10 @@ set -euo pipefail
 # needed for helm to do kubernetes configuration management.
 echo "Setting up kubectl to use the new cluster"
 gcloud container clusters get-credentials capstone-project-cluster --region=$(gcloud container clusters list | grep capstone-project-cluster | awk '{ print $2 }')
-kubectl create serviceaccount tiller --namespace kube-system
-kubectl create clusterrolebinding tiller-admin-binding --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-
-if [[ helm init --service-account=tiller ]]
+if [[ $(kubectl create serviceaccount tiller --namespace kube-system && echo $? || echo $?) ]]
 then
+  kubectl create clusterrolebinding tiller-admin-binding --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+  helm init --service-account=tiller
   echo "Tiller service acocunt installed"
 else
   echo "Tiller appears to have been installed already on this cluster. Moving on."
