@@ -4,4 +4,4 @@ region = "us-west1"
 
 zone = "us-west1-a"
 
-buckets = ["uploads", "artifacts", "lfs", "packages", "registry"]
+buckets = ["gitlab-backups", "gitlab-uploads", "gitlab-artifacts", "gitlab-lfs", "gitlab-packages", "registry", "gitlab-runner-cache", "gitlab-pseudo"]

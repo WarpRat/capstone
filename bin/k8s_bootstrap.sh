@@ -27,5 +27,6 @@ helm upgrade google-application-credentials ./capstone/helm/charts/secrets -f ./
 helm upgrade gitlab-rails-storage ./capstone/helm/charts/secrets -f ./capstone/helm/charts/secrets/values/rails.yaml --install --namespace gitlab \
                                                     --set seclit.google_project=${GOOGLE_CLOUD_PROJECT} \
                                                     --set seclit.google_client_email=gitlab-storage-sa@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com \
-                                                    --set fileLit.google_json_key_string=gcs-key.json
+                                                    --set fileLit.google_json_key_string=gcs-key.json \
+                                                    --set extrakey=connection
 rm ./capstone/helm/charts/secrets/gcs-key.json
