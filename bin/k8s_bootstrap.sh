@@ -8,9 +8,16 @@ gcloud container clusters get-credentials capstone-project-cluster --region=$(gc
 kubectl create serviceaccount tiller --namespace kube-system
 kubectl create clusterrolebinding tiller-admin-binding --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 
-helm init --service-account=tiller
+if [[ helm init --service-account=tiller ]]
+then
+  echo "Tiller service acocunt installed"
+else
+  echo "Tiller appears to have been installed already on this cluster. Moving on."
+fi
+
 helm repo update
 
+sleep 2
 echo "Checking that helm is properly initialized"
 helm version > /dev/null 2>&1 && echo "Helm appears to have initialized inside your cluster properly." \
                               || echo "Something appears to have gone wrong with helm. Please try again."
