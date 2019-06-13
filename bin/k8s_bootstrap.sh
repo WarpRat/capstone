@@ -15,12 +15,12 @@ kubectl create serviceaccount tiller --namespace kube-system && \
 
 helm repo update
 
-sleep 2
+sleep 5
 echo "Checking that helm is properly initialized"
 helm version > /dev/null 2>&1 && echo "Helm appears to have initialized inside your cluster properly." \
                               || echo "Something appears to have gone wrong with helm. Please try again."
 
-cp .capstone_secure/gcs-key.json ./capstone/helm/charts/secrets
+cp ~/.capstone_secure/gcs-key.json ~/capstone/helm/charts/secrets/
 helm upgrade gitlab-ns ./capstone/helm/charts/common --install
 helm upgrade gitlab-pg ./capstone/helm/charts/secrets -f ./capstone/helm/charts/secrets/values/gitlab-pg.yaml --install --set seclit.password=$(cat .capstone_secure/db.pw) --namespace gitlab
 helm upgrade google-application-credentials ./capstone/helm/charts/secrets -f ./capstone/helm/charts/secrets/values/storage-creds.yaml --install --set fileLit.gcs-application-credentials-file=gcs-key.json --namespace gitlab
@@ -30,3 +30,5 @@ helm upgrade gitlab-rails-storage ./capstone/helm/charts/secrets -f ./capstone/h
                                                     --set fileLit.google_json_key_string=gcs-key.json \
                                                     --set extrakey=connection
 rm ./capstone/helm/charts/secrets/gcs-key.json
+
+# Set environment variables for everything we need to sed into the gitlab values.yaml
