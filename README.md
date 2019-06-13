@@ -3,4 +3,5 @@ The intention of this project is to allow a user to set up a fully functional gi
 
 ## Instructions
 Start the process from the home directory of your Cloud Shell by copy and pasting the following command. Everything else should take care of itself:
+
 `curl https://raw.githubusercontent.com/WarpRat/capstone/master/bootstrap.sh | bash -`
