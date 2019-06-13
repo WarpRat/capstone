@@ -23,7 +23,7 @@ helm version > /dev/null 2>&1 && echo "Helm appears to have initialized inside y
 cp ~/.capstone_secure/gcs-key.json ~/capstone/helm/charts/secrets/
 helm upgrade gitlab-ns ~/capstone/helm/charts/common --install
 helm upgrade gitlab-pg ~/capstone/helm/charts/secrets -f ~/capstone/helm/charts/secrets/values/gitlab-pg.yaml --install --set seclit.password=$(cat ~/.capstone_secure/db.pw) --namespace gitlab
-helm upgrade google-application-credentials ./capstone/helm/charts/secrets -f ./capstone/helm/charts/secrets/values/storage-creds.yaml --install --set fileLit.gcs-application-credentials-file=gcs-key.json --namespace gitlab
+helm upgrade google-application-credentials ~/capstone/helm/charts/secrets -f ~/capstone/helm/charts/secrets/values/storage-creds.yaml --install --set fileLit.gcs-application-credentials-file=gcs-key.json --namespace gitlab
 helm upgrade gitlab-rails-storage ~/capstone/helm/charts/secrets -f ~/capstone/helm/charts/secrets/values/rails.yaml --install --namespace gitlab \
                                                     --set seclit.google_project=${GOOGLE_CLOUD_PROJECT} \
                                                     --set seclit.google_client_email=gitlab-storage-sa@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com \
