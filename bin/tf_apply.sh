@@ -19,3 +19,7 @@ tf_apply $HOME/capstone/terraform/service-accounts
 tf_apply $HOME/capstone/terraform/storage
 tf_apply $HOME/capstone/terraform/database "-var gitlab_db_pass=$(cat $HOME/.capstone_secure/db.pw)"
 tf_apply $HOME/capstone/terraform/cluster
+
+echo "Finished installing infrastructure, time to configure the cluster"
+sleep 2
+$HOME/capstone/bin/k8s_bootstrap.sh

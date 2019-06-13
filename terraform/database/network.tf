@@ -17,3 +17,8 @@ resource "google_service_networking_connection" "cloudsql_service" {
   service                 = "servicenetworking.googleapis.com"
   reserved_peering_ranges = ["${google_compute_global_address.cloudsql_ips.name}"]
 }
+
+resource "google_compute_address" "gitlab_address" {
+  name        = "gitlab"
+  description = "Gitlab Ingress IP"
+}
