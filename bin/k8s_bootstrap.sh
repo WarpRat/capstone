@@ -15,7 +15,7 @@ kubectl create serviceaccount tiller --namespace kube-system && \
 
 helm repo update
 
-sleep 15
+sleep 30
 echo "Checking that helm is properly initialized"
 helm version > /dev/null 2>&1 && echo "Helm appears to have initialized inside your cluster properly." \
                               || echo "Something appears to have gone wrong with helm. Please try again."
