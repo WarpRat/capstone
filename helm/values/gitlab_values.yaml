@@ -1,0 +1,104 @@
+# Values for gitlab/gitlab chart on GKE
+global:
+  edition: ce
+  hosts:
+    domain: __INGRESS_IP__.xip.io
+    https: true
+    externalIP: __INGRESS_IP__
+    ssh: ~
+
+  ## doc/charts/globals.md#configure-ingress-settings
+  ingress:
+    configureCertmanager: true
+    enabled: true
+    tls:
+      enabled: true
+
+  ## doc/charts/globals.md#configure-postgresql-settings
+  psql:
+    password: 
+      secret: gitlab-pg
+      key: password
+    host: __DB_IP__
+    port: 5432
+    username: gitlab
+    database: gitlab-prod
+
+  redis:
+    password:
+      enabled: false
+    host: __REDIS_IP__
+
+  ## doc/charts/globals.md#configure-minio-settings
+  minio:
+    enabled: false
+
+  ## doc/charts/globals.md#configure-appconfig-settings
+  ## Rails based portions of this chart share many settings
+  appConfig:
+    ## doc/charts/globals.md#general-application-settings
+    enableUsagePing: false
+
+    ## doc/charts/globals.md#lfs-artifacts-uploads-packages
+    backups:
+      bucket: __PROJECT_NAME__-gitlab-backups
+    lfs:
+      bucket: __PROJECT_NAME__-git-lfs
+      connection:
+        secret: gitlab-rails-storage
+        key: connection
+    artifacts:
+      bucket: __PROJECT_NAME__-gitlab-artifacts
+      connection:
+        secret: gitlab-rails-storage
+        key: connection
+    uploads:
+      bucket: __PROJECT_NAME__-gitlab-uploads
+      connection:
+        secret: gitlab-rails-storage
+        key: connection
+    packages:
+      bucket: __PROJECT_NAME__-gitlab-packages
+      connection:
+        secret: gitlab-rails-storage
+        key: connection
+
+    ## doc/charts/globals.md#pseudonymizer-settings
+    pseudonymizer:
+      bucket: __PROJECT_NAME__-gitlab-pseudo
+      connection:
+        secret: gitlab-rails-storage
+        key: connection
+
+certmanager-issuer:
+  email: __CERT_MANAGER_EMAIL__
+
+prometheus:
+  install: false
+
+redis:
+  enabled: false
+
+gitlab:
+  task-runner:
+    backups:
+      objectStorage:
+        backend: gcs
+        config:
+          secret: google-application-credentials
+          key: gcs-application-credentials-file
+
+postgresql:
+  install: false
+
+gitlab-runner:
+  install: true
+  rbac:
+    create: true
+  runners:
+    locked: false
+    cache:
+      cacheType: gcs
+      gcsBucketname: __PROJECT_NAME__-runner-cache
+      secretName: google-application-credentials
+      cacheShared: true

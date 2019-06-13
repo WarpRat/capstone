@@ -5,6 +5,7 @@ validate_project() { echo "$PROJECT_LIST" | grep -F -q -x "$1"; }
 
 sed_tfvars() {
     sed -i "s/__PROJECT_NAME__/$1/" capstone/terraform/**/terraform.tfvars
+    sed -i "s/__PROJECT_NAME__/$1/g" capstone/helm/values/gitlab_values.yaml
 }
 
 clear
@@ -40,6 +41,7 @@ else
     || (echo "That project isn't in available in this GCP account.";\
          echo "Start a new project through the GCP console, or figure out what project you want to use and try again.";\
          echo "You can return to this script by running $(pwd)/capstone/bin/tf_bootstrap.sh"; exit 1)
+    gcloud config set project $project_id
   fi
 fi
 
