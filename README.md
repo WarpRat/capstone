@@ -6,7 +6,7 @@ Start the process from the home directory of your Cloud Shell by copy and pastin
 
 ```bash
 cd
-curl https://raw.githubusercontent.com/WarpRat/capstone/master/bootstrap.sh > ~/
+curl https://raw.githubusercontent.com/WarpRat/capstone/master/bootstrap.sh > ~/bootstrap.sh
 chmod +x bootstrap.sh
 ./bootstrap.sh
 ```
