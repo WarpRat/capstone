@@ -52,7 +52,7 @@ sed_values '__REDIS_IP__' ${REDIS_IP}
 sed_values '__CERT_MANAGER_EMAIL__' ${USER_EMAIL}
 sed_values '__INGRESS_IP__' ${GITLAB_INGRESS}
 
-helm install --name gitlab -f $HOME/capstone/helm/values/gitlab_values.yaml --version 1.7.1 --namespace gitlab gitlab/gitlab
+helm install --name gitlab -f $HOME/capstone/helm/values/gitlab_values.yaml --version 1.9.3 --namespace gitlab gitlab/gitlab
 
 export GITLAB_HOSTNAME=$(kubectl get ingresses.extensions gitlab-unicorn -n gitlab -o jsonpath='{.spec.rules[0].host}')
 echo "Your GitLab URL is: https://${GITLAB_HOSTNAME}"
