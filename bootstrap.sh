@@ -5,7 +5,7 @@ set -eo pipefail
 
 # Variables
 TF_VER="0.11.14"
-HELM_VER="2.14.0"
+HELM_VER="2.14.1"
 TF_ZIP="https://releases.hashicorp.com/terraform/${TF_VER}/terraform_${TF_VER}_linux_amd64.zip"
 HELM_ZIP="https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VER}-linux-amd64.tar.gz"
 GIT_URL="https://github.com/WarpRat/capstone"
