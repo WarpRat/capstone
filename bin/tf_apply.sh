@@ -36,6 +36,7 @@ then
   echo
   echo "Thanks! Now is a good time to set up DNS records for gitlab.${domain_name} and registry.${domain_name}."
   echo "Alternatively a wildcard DNS record for *.${domain_name} works as well."
+  echo "DNS A records should point to $(gcloud compute addresses describe gitlab --region us-west1 --format 'value(address)')"
   cd
   sed -i "s/__INGRESS_IP__.xip.io/${domain_name}/" capstone/helm/values/gitlab_values.yaml
   read -p "Press any key when you're ready to continue. Setting DNS up now will allow it to propagate while the cluster is provisioned." -n 1 -r
