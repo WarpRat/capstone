@@ -64,7 +64,7 @@ else
 fi
 
 
-sleep 2
+sleep 4
 clear
 
 echo "You're ready to start applying terraform code to provision cloud resources."
