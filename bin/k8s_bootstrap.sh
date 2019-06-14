@@ -3,7 +3,7 @@ set -euo pipefail
 
 # sed function to make things easier
 sed_values() {
-    sed -i "s/$1/$2/g" capstone/helm/values/gitlab_values.yaml
+    sed -i "s/$1/$2/g" $HOME/capstone/helm/values/gitlab_values.yaml
 }
 
 # Set up the tiller RBAC service account and binding outside of configuration management since tiller is
