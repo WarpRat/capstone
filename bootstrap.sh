@@ -34,14 +34,17 @@ gcloud services enable container.googleapis.com \
        redis.googleapis.com
 
 # Set path to include home directory that will persist cloud shell sessions
-cd
-[[ -d bin ]] || mkdir bin
-echo "Adding $HOME/bin to the path."
-echo 'PATH=$HOME/bin:$PATH' >> .bashrc
-# Enable globstar
-echo 'shopt -s globstar' >> .bashrc
-# Source updated bashrc
-. .bashrc
+if [[ ! -f .caprc ]]; then
+  cd
+  [[ -d bin ]] || mkdir bin
+  echo "Adding $HOME/bin to the path."
+  echo 'PATH=$HOME/bin:$PATH' >> .caprc
+  # Enable globstar
+  echo 'shopt -s globstar' >> .caprc
+  echo '. .caprc' >> .bashrc
+  # Source updated caprc
+  . .caprc
+fi
 
 # Download and install the terraform binary if it doesn't already exist or isn't up to date
 if [[ -x $HOME/bin/tf11 ]]
