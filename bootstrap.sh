@@ -14,6 +14,7 @@ install_tf() {
   echo "Downloading and installing terraform."
   wget $TF_ZIP -P /tmp/
   unzip -o /tmp/$(echo $TF_ZIP | awk -F'/' '{ print $6 }') -d $HOME/bin
+  mv $HOME/bin/terraform $HOME/bin/tf11
 }
 
 install_helm() {
@@ -43,9 +44,9 @@ echo 'shopt -s globstar' >> .bashrc
 . .bashrc
 
 # Download and install the terraform binary if it doesn't already exist or isn't up to date
-if [[ -x $HOME/bin/terraform ]]
+if [[ -x $HOME/bin/tf11 ]]
 then
-  TF_CUR_VER=$(terraform version | grep -o -P "(?<=Terraform v)[0-9]\.[0-9]{1,2}\.[0-9]{1,2}")
+  TF_CUR_VER=$(tf11 version | grep -o -P "(?<=Terraform v)[0-9]\.[0-9]{1,2}\.[0-9]{1,2}")
   [[ $TF_CUR_VER == $TF_VER ]] && echo "Terraform detected and up-to-date - skipping install" || install_tf
 else
   install_tf
